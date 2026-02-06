@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floyd Warshall Solver</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Floyd–Warshall</h1>
+        <p class="subtitle">Find all-pairs shortest paths in a weighted graph</p>
+
+        <form action="/calculate" method="POST">
+            <div class="input-group">
+                <label for="size">Number of Vertices</label>
+                <input type="number" name="size" id="size" placeholder="Enter number of vertices (e.g. 4)" min="1"
+                    max="10" required>
+            </div>
+
+            <div class="btn-container">
+                <button type="button" class="secondary" onclick="generateInputs()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12h14"></path>
+                    </svg>
+                    Generate Matrix
+                </button>
+            </div>
+
+            <div id="matrixInputs"></div>
+
+            <div id="submitBtnContainer" style="display: none;">
+                <button type="submit">
+                    <span>Calculate Shortest Paths</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function generateInputs() {
+            const size = document.getElementById("size").value;
+            if (!size || size < 1) return;
+
+            const container = document.getElementById("matrixInputs");
+            container.innerHTML = "";
+
+            const table = document.createElement("table");
+            table.className = "matrix-table";
+
+            for (let i = 0; i < size; i++) {
+                const tr = document.createElement("tr");
+                for (let j = 0; j < size; j++) {
+                    const td = document.createElement("td");
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.name = `matrix[${i}][${j}]`;
+                    input.placeholder = i === j ? "0" : "∞";
+                    input.required = true;
+                    input.className = "matrix-input";
+                    td.appendChild(input);
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
+
+            container.appendChild(table);
+            document.getElementById("submitBtnContainer").style.display = "block";
+        }
+    </script>
+</body>
+
+</html>
